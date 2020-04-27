@@ -17,32 +17,41 @@ Lambda 函数还在 Amazon DynamoDB 中记录时间计划表的名称，与该�
 ![](resource/images/instance-scheduler-architecture.png)
 
 用于 EC2 和 RDS 实例按计划启停调度，支持跨帐户和跨区域调度。
-此存储库来自 https://github.com/awslabs/aws-instance-scheduler 并基于v1.3.0版本在中国区域进行了更新。 包括一下内容：
-1. 生成 AWS Instance Scheduler Cloudformation 模板
-2. 打包 AWS Instance Scheduler Lambda 函数代码
-3. 上传 构件到用户指定的 S3 桶。
+此存储库来自 https://github.com/awslabs/aws-instance-scheduler 并基于v1.3.0版本在中国区域进行了更新。 
 
-## Setup 部署
-通过Makefile生成的Cloudformation模板进行部署
+## 快速启动：参考下面文档部署 Cloudformation 模板和执行示例演示
+
+[如何部署 cloudformation 和 执行示例演示帮助文档](Testing.md)
+
+
+## 定制自己的instance-scheduler，并部署新的方案
+如果您打算修改本方案，加入您定制化的内容，可以通过Makefile生成的新的Cloudformation模板以及相关资源，进行部署。
+
+定制化编译和部署包括一下内容：
+1. 生成新的 AWS Instance Scheduler Cloudformation 模板
+2. 打包新的 AWS Instance Scheduler Lambda 函数代码
+3. 上传新的构件到用户指定的 S3 桶。
+
+基本步骤如下，编译命令在 Amazon Linux, Ubuntu, MacOS 环境下验证通过：
 
 1. git克隆这个仓库
-
-2. 运行make命令，您可以指定{s3_bucket}和{region}
-
-3. 确保你的运行机器安装了 aws cli, pip, zip 命令 以及 pytz库
-
-4. 编译命令在 Amazon Linux, Ubuntu, MacOS 环境下验证通过
-
 ```bash
 # git 克隆
 git clone https://code.awsrun.com/csdc/aws-instance-scheduler.git
 cd aws-instance-scheduler/source/code/
+```
 
+2. 确保你的运行机器安装了 aws cli, pip, zip 命令 以及 pytz库
+```bash
 # 安装 pytz 库
 pip install pytz
 pytz_location=$(pip show pytz | grep Location | cut -d':' -f 2 | tr -d " ")
 cp -r ${pytz_location}/pytz .
+```
+3. 修改代码，加入您的内容
 
+4. 运行make命令，您可以指定{s3_bucket}和{region}
+```bash
 # 编译
 ## 定义下列变量：bucket, solution, version, region
 export bucket=YOUR_S3_BUCKET //This bucket must unique 该S3桶必须唯一
@@ -69,10 +78,6 @@ rm -r pytz
 - 如果S3存储桶不存在，那么新的S3存储桶 ${bucket}-${region} 将会被创建
 - 资源将自动上传到 s3://${bucket}-${region}/${solution}/${version}/
 - S3存储桶公共访问阻止策略为：BlockPublicAcls = false，IgnorePublicAcls = true，BlockPublicPolicy = true，RestrictPublicBuckets = true
-
-## 参考下列文档部署 Cloudformation 和 执行相关测试
-
-[如何部署 cloudformation 和 执行示例测试帮助文档](Testing.md)
 
 
 ***
