@@ -24,8 +24,9 @@ Lambda 函数还在 Amazon DynamoDB 中记录时间计划表的名称，与该�
 [如何部署 cloudformation 和 执行示例演示帮助文档](Testing.md)
 
 
-## 定制自己的instance-scheduler，并部署新的方案
-如果您打算修改本方案，加入您定制化的内容，可以通过Makefile生成的新的Cloudformation模板以及相关资源，进行部署。
+## 从源代码编译部署
+- 如果您想从源代码开始编译自己的instance-scheduler，并部署方案
+- 如果您打算修改本方案，加入您定制化的内容，可以通过Makefile生成的新的Cloudformation模板以及相关资源，进行部署。
 
 定制化编译和部署包括一下内容：
 1. 生成新的 AWS Instance Scheduler Cloudformation 模板
