@@ -1146,6 +1146,16 @@
                 "DisplayName": {
                     "Ref": "AWS::StackName"
                 }
+            },
+            "Metadata":{
+                "cfn_nag":{
+                    "rules_to_suppress":[
+                        {
+                            "id": "W47",
+                            "reason": "This SNS topic no need KMS encryption."
+                        }
+                    ]
+                }
             }
         },
         "Main": {
@@ -1266,6 +1276,16 @@
                 },
                 "Timeout": 300,
                 "Description": "EC2 and RDS instance scheduler, version %version%"
+            },
+            "Metadata":{
+                "cfn_nag":{
+                    "rules_to_suppress":[
+                        {
+                            "id": "W58",
+                            "reason": "This lambda functions require permission to write CloudWatch Logs."
+                        }
+                    ]
+                }
             },
             "DependsOn": [
                 "SchedulerPolicy"

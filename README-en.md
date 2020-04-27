@@ -80,7 +80,7 @@ aws s3api put-public-access-block \
     --bucket ${bucket}-${region} \
     --public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true" --region ${region}
 
-# Deploy
+# Upload the Cloudformation template and related source code
 chmod +x ../../deployment/deploy-dist.sh && source ../../deployment/deploy-dist.sh ${bucket} ${solution} ${version} ${region}
 # for example: source ../../deployment/deploy-dist.sh solutions-scheduler aws-instance-scheduler v1.3.0 cn-northwest-1
 
