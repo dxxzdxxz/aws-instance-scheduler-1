@@ -33,6 +33,15 @@ Lambda 函数还在 Amazon DynamoDB 中记录时间计划表的名称，与该�
 2. 打包新的 AWS Instance Scheduler Lambda 函数代码
 3. 上传新的构件到用户指定的 S3 桶。
 
+项目编译构建脚本位于deployment/build-s3-dist.sh。 请不要修改项目的目录结构，但是可以添加新代码或修改现有代码。
+
+以下是一些关键组件：
+
+- deployment/：此文件夹保存编译构建脚本，单元测试脚本和CloudFormation模板。
+- deployment/build-s3-dist.sh：用于替换CloudFormation模板中的变量并构建源代码zip文件的脚本
+- deployment/run-unit-tests.sh：单元测试脚本。
+- source/：源代码和测试代码文件夹
+
 基本步骤如下，编译命令在 Amazon Linux, Ubuntu, MacOS 环境下验证通过：
 
 1. git克隆这个仓库
@@ -55,24 +64,25 @@ cp -r ${pytz_location}/pytz .
 ```bash
 # 编译
 ## 定义下列变量：bucket, solution, version, region
-export bucket=YOUR_S3_BUCKET //This bucket must unique 该S3桶必须唯一
-export solution=THE_SOLUTION_NAMING
-export version=THE_VERSION
-export region=THE_REGION_OF_S3_BUCKET_LOCATED
-make bucket=${bucket} solution=${solution} version=${version} region=${region}
-## for example: make bucket=solutions-scheduler solution=aws-instance-scheduler version=v1.3.0 region=cn-northwest-1
+## 方案会将这里指定的bucket名字附加region参数组成[bucket-region]作为最终的S3桶名，请确保唯一
+export bucket=<YOUR_S3_BUCKET> 
+export solution=<YOUR_SOLUTION_NAMING>
+export version=<YOUR_SOLUTION_VERSION>
+export region=<THE_REGION_OF_S3_BUCKET_LOCATED>
+chmod +x ../../deployment/build-s3-dist.sh && source ../../deployment/build-s3-dist.sh ${bucket} ${solution} ${version} ${region}
+## for example: source ../../deployment/build-s3-dist.sh solutions-scheduler aws-instance-scheduler v1.3.0 cn-northwest-1
 
 # 通过 aws cli (版本建议 1.18以上)设置 S3 桶 PublicAccessBlock 配置
 aws s3api put-public-access-block \
-    --bucket ${bucket} \
+    --bucket ${bucket}-${region} \
     --public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true" --region ${region}
 
 # 部署
-make deploy bucket=${bucket} solution=${solution} version=${version} region=${region}
-# for example: make deploy bucket=solutions-scheduler solution=aws-instance-scheduler version=v1.3.0 region=cn-northwest-1
+chmod +x ../../deployment/deploy-dist.sh && source ../../deployment/deploy-dist.sh ${bucket} ${solution} ${version} ${region}
+# for example: source ../../deployment/deploy-dist.sh solutions-scheduler aws-instance-scheduler v1.3.0 cn-northwest-1
 
 # 删除 pytz 库
-rm -r pytz
+rm -r pytz/
 ```
 
 ## 编译和部署成功执行了哪些动作？
@@ -80,6 +90,11 @@ rm -r pytz
 - 资源将自动上传到 s3://${bucket}-${region}/${solution}/${version}/
 - S3存储桶公共访问阻止策略为：BlockPublicAcls = false，IgnorePublicAcls = true，BlockPublicPolicy = true，RestrictPublicBuckets = true
 
+## 执行单元测试Running Unit Tests
+```bash
+cd aws-instance-scheduler/deployment/
+chmod +x "./run-unit-tests.sh" && "./run-unit-tests.sh"
+```
 
 ***
 
