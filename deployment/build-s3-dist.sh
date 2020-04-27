@@ -22,8 +22,8 @@ if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
     exit 1
 fi
 
-echo "make bucket=$1 solution=$2 version=$3"
+echo "make bucket=$1 solution=$2 version=$3 region=$4"
 cd ../source/code
-make bucket=$1 solution=$2 version=$3
+make bucket=$1 solution=$2 version=$3 region=$4
 cd ../../deployment
 echo "Completed building distribution"

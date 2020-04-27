@@ -17,20 +17,25 @@ import sys
 from collections import OrderedDict
 
 
-def get_versioned_template(template_filename, bucket, solution, version):
+def get_versioned_template(template_filename, bucket, solution, version, region):
     with open(template_filename, "rt") as f:
         template_text = "".join(f.readlines())
         template_text = template_text.replace("%bucket%", bucket)
         template_text = template_text.replace("%solution%", solution)
         template_text = template_text.replace("%version%", version)
+        if region == 'cn-north-1' or region == 'cn-northwest-1':
+            arn_prefix = "arn:aws-cn"
+        else:
+            arn_prefix = "arn:aws"
+        template_text = template_text.replace("%arn_prefix%", arn_prefix)
         return json.loads(template_text, object_pairs_hook=OrderedDict)
 
 
-def main(template_file, bucket, solution, version):
-    template = get_versioned_template(template_file, bucket, solution, version)
+def main(template_file, bucket, solution, version, region):
+    template = get_versioned_template(template_file, bucket, solution, version, region)
     print(json.dumps(template, indent=4))
 
 
-main(template_file=sys.argv[1], bucket=sys.argv[2], solution=sys.argv[3], version=sys.argv[4])
+main(template_file=sys.argv[1], bucket=sys.argv[2], solution=sys.argv[3], version=sys.argv[4], region=sys.argv[5])
 
 exit(0)

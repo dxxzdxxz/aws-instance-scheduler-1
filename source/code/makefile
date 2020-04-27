@@ -11,7 +11,9 @@
 #  and limitations under the License.                                                                                #
 ######################################################################################################################
 
-s3bucket=s3://$(bucket)/
+newbucket=$(bucket)-$(region)
+prefix=$(solution)/$(version)/
+s3bucket=s3://$(newbucket)/
 
 pydirs= configuration configuration/setbuilders requesthandlers schedulers util boto_retry
 py=$(foreach dir, $(pydirs), $(wildcard $(dir)/*.py))
@@ -94,24 +96,37 @@ cfn:version.txt $(templates)
 	find $(global_assets_dir) -maxdepth 1 -type f -name 'instance-scheduler*.template' -delete
 
 	# build cfn templates
-	python ./build-instance-scheduler-template.py ../cloudformation/instance-scheduler.template  $(bucket) $(solution) $(version) > $(global_assets_dir)/instance-scheduler.template
-	python ./build-instance-scheduler-template.py ../cloudformation/instance-scheduler-remote.template  $(bucket) $(solution) $(version) > $(global_assets_dir)/instance-scheduler-remote.template
+	python ./build-instance-scheduler-template.py ../cloudformation/instance-scheduler.template  $(bucket) $(solution) $(version) $(region) > $(global_assets_dir)/instance-scheduler.template
+	python ./build-instance-scheduler-template.py ../cloudformation/instance-scheduler-remote.template  $(bucket) $(solution) $(version) $(region) > $(global_assets_dir)/instance-scheduler-remote.template
 
 
 ######################################################################################################################
 # Deploy to S3                                                                                                       #
 ######################################################################################################################
+s3-check:
+	aws s3api head-bucket --bucket $(newbucket) --region $(region) || \
+	(aws s3api create-bucket --bucket $(newbucket) --create-bucket-configuration LocationConstraint=$(region) --region $(region) ; \
+	aws s3api wait bucket-exists --bucket $(newbucket) --region $(region))
+	
+	aws s3api put-public-access-block --bucket $(newbucket) \
+	 --public-access-block-configuration BlockPublicAcls=false,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true \
+	 --region $(region)
 
-deploy: lambda cfn scheduler-cli
-	aws s3 cp $(deployment)/instance-scheduler-latest.template $(s3bucket)$(prefix)  --acl public-read
-	aws s3 cp $(deployment)/instance-scheduler-latest.template $(s3bucket)  --acl public-read
+deploy: lambda cfn scheduler-cli s3-check
+	#aws s3 cp $(deployment)/instance-scheduler-latest.template $(s3bucket)$(prefix)  --acl public-read
+	#aws s3 cp $(deployment)/instance-scheduler-latest.template $(s3bucket)  --acl public-read
 
-	aws s3 cp $(deployment)/instance-scheduler-remote-latest.template $(s3bucket)$(prefix)  --acl public-read
-	aws s3 cp $(deployment)/instance-scheduler-remote-latest.template $(s3bucket)  --acl public-read
+	#aws s3 cp $(deployment)/instance-scheduler-remote-latest.template $(s3bucket)$(prefix)  --acl public-read
+	#aws s3 cp $(deployment)/instance-scheduler-remote-latest.template $(s3bucket)  --acl public-read
+	aws s3 cp $(global_assets_dir)/instance-scheduler.template $(s3bucket)$(prefix)  --acl public-read
+	aws s3 cp $(global_assets_dir)/instance-scheduler.template $(s3bucket)  --acl public-read
+
+	aws s3 cp $(global_assets_dir)/instance-scheduler-remote.template $(s3bucket)$(prefix)  --acl public-read
+	aws s3 cp $(global_assets_dir)/instance-scheduler-remote.template $(s3bucket)  --acl public-read
 
 	aws s3 cp $(zip) $(s3bucket)$/$(prefix)  --acl public-read
 	aws s3 cp $(zip_cli) $(s3bucket)$(prefix) --acl public-read
-	aws s3 cp $(deployment)/scheduler-cli-latest.zip $(s3bucket) --acl public-read
+	#aws s3 cp $(deployment)/scheduler-cli-latest.zip $(s3bucket) --acl public-read
 
 	python update-build-number.py version.txt
 

@@ -87,7 +87,11 @@ class InstanceScheduler:
         self._context = None
 
         # valid regions for service
-        self._valid_regions = boto3.Session().get_available_regions(service.service_name)
+        runtime_region = os.environ['AWS_REGION']
+        if runtime_region == 'cn-north-1' or runtime_region == 'cn-northwest-1':
+            self._valid_regions = boto3.Session().get_available_regions(service.service_name,partition_name='aws-cn')
+        else:
+            self._valid_regions = boto3.Session().get_available_regions(service.service_name)
 
         self._usage_metrics = {"Started": {}, "Stopped": {}, "Resized": {}}
 

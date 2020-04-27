@@ -48,7 +48,7 @@
                             "AWS": {
                                 "Fn::Join": [
                                     "", [
-                                        "arn:aws:iam::", {
+                                        "%arn_prefix%:iam::", {
                                             "Ref": "InstanceSchedulerAccount"
                                         },
                                         ":root"
@@ -80,7 +80,7 @@
                                         "Fn::Join": [
                                             ":",
                                             [
-                                                "arn:aws:rds:*",
+                                                "%arn_prefix%:rds:*",
                                                 {
                                                     "Ref": "AWS::AccountId"
                                                 },
@@ -102,7 +102,7 @@
                                         "Fn::Join": [
                                             ":",
                                             [
-                                                "arn:aws:rds:*",
+                                                "%arn_prefix%:rds:*",
                                                 {
                                                     "Ref": "AWS::AccountId"
                                                 },
@@ -124,7 +124,7 @@
                                             "Fn::Join": [
                                                 ":",
                                                 [
-                                                    "arn:aws:rds:*",
+                                                    "%arn_prefix%:rds:*",
                                                     {
                                                         "Ref": "AWS::AccountId"
                                                     },
@@ -147,7 +147,7 @@
                                             "Fn::Join": [
                                                 ":",
                                                 [
-                                                    "arn:aws:ec2:*",
+                                                    "%arn_prefix%:ec2:*",
                                                     {
                                                         "Ref": "AWS::AccountId"
                                                     },

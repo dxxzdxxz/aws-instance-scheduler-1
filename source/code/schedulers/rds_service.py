@@ -23,6 +23,7 @@ from configuration.instance_schedule import InstanceSchedule
 from configuration.running_period import RunningPeriod
 from configuration.scheduler_config_builder import SchedulerConfigBuilder
 from configuration.setbuilders.weekday_setbuilder import WeekdaySetBuilder
+from botocore.exceptions import ClientError
 
 RESTRICTED_RDS_TAG_VALUE_SET_CHARACTERS = r"[^a-zA-Z0-9\s_\.:+/=\\@-]"
 
@@ -425,9 +426,13 @@ class RdsService:
                 self._tag_stopped_resource(client, rds_resource)
 
                 yield rds_resource.id, InstanceSchedule.STATE_STOPPED
+            except ClientError as ce:
+                self._logger.error(ce.response)
+                return
             except Exception as ex:
                 self._logger.error(ERR_STOPPING_INSTANCE, "cluster" if rds_resource.is_cluster else "instance",
                                    rds_resource.instance_str, str(ex))
+                return
 
     # noinspection PyMethodMayBeStatic
     def start_instances(self, kwargs):
@@ -452,6 +457,9 @@ class RdsService:
                 self._tag_started_instances(client, rds_resource)
 
                 yield rds_resource.id, InstanceSchedule.STATE_RUNNING
+            except ClientError as ce:
+                self._logger.error(ce.response)
+                return
             except Exception as ex:
                 self._logger.error(ERR_STARTING_INSTANCE, "cluster" if rds_resource.is_cluster else "instance",
                                    rds_resource.instance_str, str(ex))
