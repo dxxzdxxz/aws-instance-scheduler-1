@@ -93,7 +93,7 @@ rm -r pytz/
 ## 执行单元测试Running Unit Tests
 ```bash
 cd aws-instance-scheduler/deployment/
-chmod +x "./run-unit-tests.sh" && "./run-unit-tests.sh"
+chmod +x ./run-unit-tests.sh && ./run-unit-tests.sh
 ```
 
 ***
