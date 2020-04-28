@@ -1,0 +1,7 @@
+# compiled output
+deployment/global-s3-assets/**
+deployment/regional-s3-assets/**
+**/dist/
+**/deployment/global-s3-assets/
+**/deployment/regional-s3-assets/
+**/source/code/pytz/
