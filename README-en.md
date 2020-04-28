@@ -62,11 +62,11 @@ cp -r ${pytz_location}/pytz .
 
 3. Modify the code to add your content
 
-4. Run make command, you can specify your {s3_bucket} and {region}
+4. Run make command, you can specify your {bucket} and {region}
 ```bash
 # Build
 ## define variable or specify the value of bucket, solution, version, region
-## The solution will append the [region] to [bucket], using [bucket-region] as the final S3 bucket name
+## This bucket name must be unique
 export bucket=YOUR_S3_BUCKET 
 export solution=THE_SOLUTION_NAMING
 export version=THE_VERSION
@@ -76,8 +76,7 @@ chmod +x ../../deployment/build-s3-dist.sh && source ../../deployment/build-s3-d
 
 
 # set s3 bucket PublicAccessBlock configuration, make sure you use upgrade your aws cli > 1.18
-aws s3api put-public-access-block \
-    --bucket ${bucket}-${region} \
+aws s3api put-public-access-block --bucket ${bucket} \
     --public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true" --region ${region}
 
 # Upload the Cloudformation template and related source code
@@ -89,8 +88,8 @@ rm -r pytz/
 ```
 
 ## What's result the build and deploy successfully excuted? 
-- A new S3 bucket ${bucket}-${region} will be automatically created if it is not existed
-- The resources will be automatically uploaded to s3://${bucket}-${region}/${solution}/${version}/
+- A new S3 bucket ${bucket} will be automatically created if it is not existed
+- The resources will be automatically uploaded to s3://${bucket}/${solution}/${version}/
 - The S3 bucket public access block policy as: BlockPublicAcls=false,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true
 
 

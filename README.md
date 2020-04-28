@@ -62,32 +62,32 @@ cp -r ${pytz_location}/pytz .
 
 4. 运行make命令，您可以指定{s3_bucket}和{region}
 ```bash
+cd source/code/
 # 编译
 ## 定义下列变量：bucket, solution, version, region
-## 方案会将这里指定的bucket名字附加region参数组成[bucket-region]作为最终的S3桶名，请确保唯一
+## 请确保S3桶名 bucket 唯一
 export bucket=<YOUR_S3_BUCKET> 
 export solution=<YOUR_SOLUTION_NAMING>
 export version=<YOUR_SOLUTION_VERSION>
 export region=<THE_REGION_OF_S3_BUCKET_LOCATED>
 chmod +x ../../deployment/build-s3-dist.sh && source ../../deployment/build-s3-dist.sh ${bucket} ${solution} ${version} ${region}
-## for example: source ../../deployment/build-s3-dist.sh solutions-scheduler aws-instance-scheduler v1.3.0 cn-northwest-1
+## for example: source ../../deployment/build-s3-dist.sh solutions-scheduler-cn-northwest-1 aws-instance-scheduler v1.3.0 cn-northwest-1
 
 # 通过 aws cli (版本建议 1.18以上)设置 S3 桶 PublicAccessBlock 配置
-aws s3api put-public-access-block \
-    --bucket ${bucket}-${region} \
+aws s3api put-public-access-block --bucket ${bucket} \
     --public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true" --region ${region}
 
 # 上传Cloudformation模板以及相关代码资源
 chmod +x ../../deployment/deploy-dist.sh && source ../../deployment/deploy-dist.sh ${bucket} ${solution} ${version} ${region}
-# for example: source ../../deployment/deploy-dist.sh solutions-scheduler aws-instance-scheduler v1.3.0 cn-northwest-1
+# for example: source ../../deployment/deploy-dist.sh solutions-scheduler-cn-northwest-1 aws-instance-scheduler v1.3.0 cn-northwest-1
 
 # 删除 pytz 库
 rm -r pytz/
 ```
 
 ## 编译和部署成功执行了哪些动作？
-- 如果S3存储桶不存在，那么新的S3存储桶 ${bucket}-${region} 将会被创建
-- 资源将自动上传到 s3://${bucket}-${region}/${solution}/${version}/
+- 如果S3存储桶不存在，那么新的S3存储桶 ${bucket} 将会被创建
+- 资源将自动上传到 s3://${bucket}/${solution}/${version}/
 - S3存储桶公共访问阻止策略为：BlockPublicAcls = false，IgnorePublicAcls = true，BlockPublicPolicy = true，RestrictPublicBuckets = true
 
 ## 执行单元测试Running Unit Tests

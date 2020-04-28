@@ -8,9 +8,9 @@
 #
 # Parameters:
 #  - source-bucket-base-name: Name for the S3 bucket location where the template will source the Lambda
-#    code from. The template will append '-[region_name]' to this bucket name.
+#    code from.
 #    For example: ./build-s3-dist.sh solutions my-solution v1.0.0 cn-northwest-1
-#    The template will then expect the source code to be located in the solutions-[region_name] bucket
+#    The template will then expect the source code to be located in the solutions bucket
 #
 #  - trademarked-solution-name: name of the solution for consistency
 #

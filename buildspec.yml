@@ -26,8 +26,7 @@ phases:
       - cd source/code/
       - echo "Upload the artifacts to S3 `date` in `pwd`"
       - echo "Run s3api put-public-access-block"
-      - aws s3api put-public-access-block \
-        --bucket ${bucket}-${region} \
+      - aws s3api put-public-access-block --bucket ${bucket} \
         --public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true" --region ${region}
       - echo "Uploading the artifacts"
       - chmod +x ../../deployment/deploy-dist.sh && source ../../deployment/deploy-dist.sh ${bucket} ${solution} ${version} ${region}
