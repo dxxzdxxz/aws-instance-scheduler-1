@@ -1171,7 +1171,17 @@
                     ]
                 },
                 "Code": {
-                    "S3Bucket": "%bucket%",
+                    "S3Bucket": {
+                        "Fn::Join": [
+                            "-",
+                            [
+                                "%bucket%",
+                                {
+                                    "Ref": "AWS::Region"
+                                }
+                            ]
+                        ]
+                    },
                     "S3Key": "%solution%/%version%/instance-scheduler.zip"
                 },
                 "Handler": "main.lambda_handler",

@@ -19,17 +19,17 @@ phases:
     commands:
       - cd source/code/
       - echo "Starting build `date` in `pwd`"
-      - chmod +x ../../deployment/build-s3-dist.sh && source ../../deployment/build-s3-dist.sh ${bucket} ${solution} ${version} ${region}
+      - chmod +x build-s3-dist.sh && ./build-s3-dist.sh ${bucket} ${solution} ${version} ${region}
       - echo "Build completed `date`"
   post_build:
     commands:
       - cd source/code/
       - echo "Upload the artifacts to S3 `date` in `pwd`"
       - echo "Run s3api put-public-access-block"
-      - aws s3api put-public-access-block --bucket ${bucket} \
+      - aws s3api put-public-access-block --bucket ${bucket}-${region} \
         --public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true" --region ${region}
       - echo "Uploading the artifacts"
-      - chmod +x ../../deployment/deploy-dist.sh && source ../../deployment/deploy-dist.sh ${bucket} ${solution} ${version} ${region}
+      - chmod +x deploy-dist.sh && ./deploy-dist.sh ${bucket} ${solution} ${version} ${region}
       - "echo cleanup pytz/"
       - rm -r pytz/
       - echo "Post build completed on `date`"

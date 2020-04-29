@@ -48,7 +48,7 @@ Lambda 函数还在 Amazon DynamoDB 中记录时间计划表的名称，与该�
 ```bash
 # git 克隆
 git clone https://code.awsrun.com/csdc/aws-instance-scheduler.git
-cd aws-instance-scheduler/source/code/
+cd aws-instance-scheduler/deployment/
 ```
 
 2. 确保你的运行机器安装了 aws cli, pip, zip 命令 以及 pytz库
@@ -60,25 +60,26 @@ cp -r ${pytz_location}/pytz .
 ```
 3. 修改代码，加入您的内容
 
-4. 运行make命令，您可以指定{s3_bucket}和{region}
+4. 运行 build-s3-dist.sh 命令编译工程项目
 ```bash
 cd source/code/
 # 编译
 ## 定义下列变量：bucket, solution, version, region
-## 请确保S3桶名 bucket 唯一
-export bucket=<YOUR_S3_BUCKET> 
+## 本方案将[region]附加到[bucket]，使用[bucket]-[region]作为最终的S3存储桶名称。 Lambda代码将位于特定于区域的最终S3存储桶中。
+## 请确保[bucket]-[region] S3存储桶名称必须唯一
+export bucket=<YOUR_S3_BUCKET_BASE_NAME> 
 export solution=<YOUR_SOLUTION_NAMING>
 export version=<YOUR_SOLUTION_VERSION>
 export region=<THE_REGION_OF_S3_BUCKET_LOCATED>
-chmod +x ../../deployment/build-s3-dist.sh && source ../../deployment/build-s3-dist.sh ${bucket} ${solution} ${version} ${region}
-## for example: source ../../deployment/build-s3-dist.sh solutions-scheduler-cn-northwest-1 aws-instance-scheduler v1.3.0 cn-northwest-1
+chmod +x build-s3-dist.sh && ./build-s3-dist.sh ${bucket} ${solution} ${version} ${region}
+## for example: ./build-s3-dist.sh solutions-scheduler aws-instance-scheduler v1.3.0 cn-northwest-1
 
 # 通过 aws cli (版本建议 1.18以上)设置 S3 桶 PublicAccessBlock 配置
-aws s3api put-public-access-block --bucket ${bucket} \
+aws s3api put-public-access-block --bucket ${bucket}-${region} \
     --public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true" --region ${region}
 
 # 上传Cloudformation模板以及相关代码资源
-chmod +x ../../deployment/deploy-dist.sh && source ../../deployment/deploy-dist.sh ${bucket} ${solution} ${version} ${region}
+cchmod +x deploy-dist.sh && ./deploy-dist.sh ${bucket} ${solution} ${version} ${region}
 # for example: source ../../deployment/deploy-dist.sh solutions-scheduler-cn-northwest-1 aws-instance-scheduler v1.3.0 cn-northwest-1
 
 # 删除 pytz 库
@@ -93,7 +94,7 @@ rm -r pytz/
 ## 执行单元测试Running Unit Tests
 ```bash
 cd aws-instance-scheduler/deployment/
-chmod +x ./run-unit-tests.sh && ./run-unit-tests.sh
+chmod +x run-unit-tests.sh && ./run-unit-tests.sh
 ```
 
 ***

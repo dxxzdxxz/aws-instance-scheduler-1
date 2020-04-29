@@ -11,7 +11,7 @@
 #  and limitations under the License.                                                                                #
 ######################################################################################################################
 
-newbucket=$(bucket)
+newbucket=$(bucket)-$(region)
 prefix=$(solution)/$(version)/
 s3bucket=s3://$(newbucket)/
 

@@ -100,6 +100,9 @@ scheduler-cli create-schedule --name office-hours-09to21 --periods office-hours-
 # check result
 1. Check the DynamoDB instance-scheduler-ConfigTable-xxxx table and confirm that the office-hours-09to21 schedule has been created
 2. scheduler-cli describe-schedules --stack Instance-Scheduler --region cn-northwest-1 --profile aws-china
+
+# delete schedule
+scheduler-cli delete-schedule --name uk-office-hours --stack instance-scheduler --region cn-northwest-1 --profile cn-north-1
 ```
 
 ## Step 4. Tag Your EC2 and RDS Instances
