@@ -17,7 +17,6 @@ phases:
       - echo "Executing unit tests completed `date`"
   build:
     commands:
-      - cd ../source/code/
       - echo "Starting build `date` in `pwd`"
       - chmod +x build-s3-dist.sh && ./build-s3-dist.sh ${bucket} ${solution} ${version} ${region}
       - echo "Build completed `date`"
