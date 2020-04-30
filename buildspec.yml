@@ -11,27 +11,24 @@ phases:
       - echo "Installing dependencies completed `date`"
   pre_build:
     commands:
-      - cd deployment/
+      - cd ../../deployment/
       - echo "Executing unit tests - `pwd`"
       - if [ -f ./run-unit-tests.sh ]; then chmod +x ./run-unit-tests.sh && ./run-unit-tests.sh; fi
       - echo "Executing unit tests completed `date`"
   build:
     commands:
-      - cd source/code/
+      - cd ../source/code/
       - echo "Starting build `date` in `pwd`"
       - chmod +x build-s3-dist.sh && ./build-s3-dist.sh ${bucket} ${solution} ${version} ${region}
       - echo "Build completed `date`"
+      - echo "Starting open-source-dist `date` in `pwd`"
+      - chmod +x ./build-open-source-dist.sh && ./build-open-source-dist.sh $SOLUTION_NAME
+      - echo "Open Source Dist completed `date`"
   post_build:
     commands:
-      - cd source/code/
-      - echo "Upload the artifacts to S3 `date` in `pwd`"
-      - echo "Run s3api put-public-access-block"
-      - aws s3api put-public-access-block --bucket ${bucket}-${region} \
-        --public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true" --region ${region}
-      - echo "Uploading the artifacts"
-      - chmod +x deploy-dist.sh && ./deploy-dist.sh ${bucket} ${solution} ${version} ${region}
-      - "echo cleanup pytz/"
-      - rm -r pytz/
+      - echo "Retrieving next stage buildspec `date` in `pwd`"
+      - aws s3 cp s3://aws-solutions-build-assets/changelog-spec.yml ../buildspec.yml
+      - echo "Retrieving next stage buildspec complete"
       - echo "Post build completed on `date`"
 
 artifacts:
