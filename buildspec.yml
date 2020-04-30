@@ -26,8 +26,9 @@ phases:
   post_build:
     commands:
       - cd ../source/code/
-      - "echo cleanup pytz/"
+      - echo "Starting post-build `date` in `pwd` - cleanup pytz/"
       - rm -r pytz/
+      - cd ../../deployment/
       - echo "Retrieving next stage buildspec `date` in `pwd`"
       - aws s3 cp s3://aws-solutions-build-assets/changelog-spec.yml ../buildspec.yml
       - echo "Retrieving next stage buildspec complete"
