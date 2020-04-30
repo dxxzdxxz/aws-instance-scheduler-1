@@ -49,7 +49,7 @@ The basic steps are as follows, the setup commands have been verified on Amazon 
 ```bash
 # git clone
 git clone https://code.awsrun.com/csdc/aws-instance-scheduler.git
-cd aws-instance-scheduler/deployment/
+cd aws-instance-scheduler/source/code/
 ```
 
 2. Make sure the aws cli, pip, zip command and pytz liberary have been installed on your machine
@@ -62,43 +62,47 @@ cp -r ${pytz_location}/pytz .
 
 3. Modify the code to add your content
 
+4. Running Unit Tests
+```bash
+cd ../../deployment/
+chmod +x run-unit-tests.sh && ./run-unit-tests.sh
+```
+
 4. Run build-s3-dist.sh to build the project
 ```bash
 # Build
-## define variable or specify the value of bucket, solution, version, region
-## The solution will append the [region] to [bucket], using [bucket]-[region] as the final S3 bucket name. Lambda code will located into region specific final S3 bucket.
-## This final S3 bucket name must be unique
+## define variable or specify the value of bucket, solution, version, final_bucket
+## The solution will append the [region] to [bucket], using [bucket]-[region] as the final S3 bucket name final_bucket. 
+## Lambda code will located into region specific S3 bucket final_bucket.
+## Please make sure the final_bucket=[bucket]-[region] name unique
 export bucket=YOUR_S3_BUCKET_BASE_NAME 
 export solution=THE_SOLUTION_NAMING
 export version=THE_VERSION
 export region=THE_REGION_OF_S3_BUCKET_LOCATED
-chmod +x build-s3-dist.sh && ./build-s3-dist.sh ${bucket} ${solution} ${version} ${region}
-## for example: ./build-s3-dist.sh solutions-scheduler aws-instance-scheduler v1.3.0 cn-northwest-1
+export region=<AWS_REGION>
+export final_bucket=${bucket}-${region}
+chmod +x build-s3-dist.sh && ./build-s3-dist.sh ${final_bucket} ${bucket} ${solution} ${version}
+## for example: ./build-s3-dist.sh solutions-scheduler-cn-northwest-1 solutions-scheduler aws-instance-scheduler v1.3.0
 
 
 # set s3 bucket PublicAccessBlock configuration, make sure you use upgrade your aws cli > 1.18
-aws s3api put-public-access-block --bucket ${bucket}-${region} \
+aws s3api put-public-access-block --bucket ${final_bucket} \
     --public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true" --region ${region}
 
 # Upload the Cloudformation template and related source code
-chmod +x deploy-dist.sh && ./deploy-dist.sh ${bucket} ${solution} ${version} ${region}
-# for example: ./deploy-dist.sh solutions-scheduler aws-instance-scheduler v1.3.0 cn-northwest-1
+chmod +x deploy-dist.sh && ./deploy-dist.sh ${final_bucket} ${bucket} ${solution} ${version}
+# for example: ./deployment/deploy-dist.sh solutions-scheduler-cn-northwest-1 solutions-scheduler aws-instance-scheduler v1.3.0
 
 # Delete pytz
+cd ../source/code/
 rm -r pytz/
+cd ../..
 ```
 
 ## What's result the build and deploy successfully excuted? 
-- A new S3 bucket ${bucket} will be automatically created if it is not existed
-- The resources will be automatically uploaded to s3://${bucket}/${solution}/${version}/
+- A new S3 bucket ${final_bucket} will be automatically created if it is not existed
+- The resources will be automatically uploaded to s3://${final_bucket}/${solution}/${version}/
 - The S3 bucket public access block policy as: BlockPublicAcls=false,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true
-
-
-## Running Unit Tests
-```bash
-cd aws-instance-scheduler/deployment/
-chmod +x "./run-unit-tests.sh" && "./run-unit-tests.sh"
-```
 
 ***
 
