@@ -76,7 +76,6 @@ chmod +x run-unit-tests.sh && ./run-unit-tests.sh
 export bucket=<YOUR_S3_BUCKET_BASE_NAME> 
 export solution=<YOUR_SOLUTION_NAMING>
 export version=<YOUR_SOLUTION_VERSION>
-export region=<AWS_REGION>
 export final_bucket=${bucket}-${region}
 chmod +x build-s3-dist.sh && ./build-s3-dist.sh ${final_bucket} ${bucket} ${solution} ${version}
 ## for example: ./build-s3-dist.sh solutions-scheduler-cn-northwest-1 solutions-scheduler aws-instance-scheduler v1.3.0
