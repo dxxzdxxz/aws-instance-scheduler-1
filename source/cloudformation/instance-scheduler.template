@@ -1093,7 +1093,17 @@
                     }
                 ],
                 "BillingMode": "PAY_PER_REQUEST"
-            }
+            },
+            "Metadata":{
+                "cfn_nag":{
+                    "rules_to_suppress":[
+                        {
+                            "id": "W74",
+                            "reason": "This dynamoDB table no need encrypted using a CMK."
+                        }
+                    ]
+                }
+            }            
         },
         "ConfigTable": {
             "Type": "AWS::DynamoDB::Table",
@@ -1119,6 +1129,16 @@
                     }
                 ],
                 "BillingMode": "PAY_PER_REQUEST"
+            },
+            "Metadata":{
+                "cfn_nag":{
+                    "rules_to_suppress":[
+                        {
+                            "id": "W74",
+                            "reason": "This dynamoDB table no need encrypted using a CMK."
+                        }
+                    ]
+                }
             }
         },
         "SchedulerLogGroup": {
