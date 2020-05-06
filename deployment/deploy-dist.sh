@@ -30,19 +30,21 @@ base_bucket=$2
 case $SHELL in
 */zsh)
     region=${newbucket##$base_bucket-}
-    echo "region ${region}" 
+    echo "zsh region ${region}" 
     ;;
 */bash)
-    region_index=$(expr match "${newbucket}" "${base_bucket}")
-    echo "region_index ${region_index}"
-    region=${newbucket:$region_index+1}
-    echo "region ${region}"
+    # region_index=$(expr match "${newbucket}" "${base_bucket}")
+    # echo "bash region_index ${region_index}"
+    # region=${newbucket:$region_index+1}
+    region=${newbucket##$base_bucket-}
+    echo "bash region ${region}"
     ;;
 */sh)
-    region_index=$(expr match "${newbucket}" "${base_bucket}")
-    echo "region_index ${region_index}"
-    region=${newbucket:$region_index+1}
-    echo "region ${region}"
+    # region_index=$(expr match "${newbucket}" "${base_bucket}")
+    # echo "sh region_index ${region_index}"
+    # region=${newbucket:$region_index+1}
+    region=${newbucket##$base_bucket-}
+    echo "sh region ${region}"
     ;;
 *)
     echo "non-supported shell"
