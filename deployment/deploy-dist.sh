@@ -25,36 +25,10 @@ if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ] || [ -z "$4" ]; then
     exit 1
 fi
 
-newbucket=$1
-base_bucket=$2
-case $SHELL in
-*/zsh)
-    region=${newbucket##$base_bucket-}
-    echo "zsh region ${region}" 
-    ;;
-*/bash)
-    # region_index=$(expr match "${newbucket}" "${base_bucket}")
-    # echo "bash region_index ${region_index}"
-    # region=${newbucket:$region_index+1}
-    region=${newbucket##$base_bucket-}
-    echo "bash region ${region}"
-    ;;
-*/sh)
-    # region_index=$(expr match "${newbucket}" "${base_bucket}")
-    # echo "sh region_index ${region_index}"
-    # region=${newbucket:$region_index+1}
-    region=${newbucket##$base_bucket-}
-    echo "sh region ${region}"
-    ;;
-*)
-    echo "non-supported shell"
-    exit 1
-esac
-
 echo "------------------------------------------------------------------------------"
 echo "Upload Cloudformation template and related resources to S3"
 echo "------------------------------------------------------------------------------"
 cd ../source/code
-echo "make deploy final_bucket=$1 bucket=$2 solution=$3 version=$4 region=$region"
-make deploy final_bucket=$1 bucket=$2 solution=$3 version=$4 region=$region
+echo "make deploy final_bucket=$1 bucket=$2 solution=$3 version=$4 region=$5"
+make deploy final_bucket=$1 bucket=$2 solution=$3 version=$4 region=$5
 echo "Completed upload distribution"

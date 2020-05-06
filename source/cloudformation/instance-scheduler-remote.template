@@ -48,7 +48,7 @@
                             "AWS": {
                                 "Fn::Join": [
                                     "", [
-                                        "%arn_prefix%:iam::", {
+                                        "arn:${AWS::Partition}:iam::", {
                                             "Ref": "InstanceSchedulerAccount"
                                         },
                                         ":root"
@@ -80,7 +80,7 @@
                                         "Fn::Join": [
                                             ":",
                                             [
-                                                "%arn_prefix%:rds:*",
+                                                "arn:${AWS::Partition}:rds:*",
                                                 {
                                                     "Ref": "AWS::AccountId"
                                                 },
@@ -102,7 +102,7 @@
                                         "Fn::Join": [
                                             ":",
                                             [
-                                                "%arn_prefix%:rds:*",
+                                                "arn:${AWS::Partition}:rds:*",
                                                 {
                                                     "Ref": "AWS::AccountId"
                                                 },
@@ -124,7 +124,7 @@
                                             "Fn::Join": [
                                                 ":",
                                                 [
-                                                    "%arn_prefix%:rds:*",
+                                                    "arn:${AWS::Partition}:rds:*",
                                                     {
                                                         "Ref": "AWS::AccountId"
                                                     },
@@ -147,7 +147,7 @@
                                             "Fn::Join": [
                                                 ":",
                                                 [
-                                                    "%arn_prefix%:ec2:*",
+                                                    "arn:${AWS::Partition}:ec2:*",
                                                     {
                                                         "Ref": "AWS::AccountId"
                                                     },

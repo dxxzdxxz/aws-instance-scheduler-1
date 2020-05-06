@@ -96,8 +96,8 @@ cfn:version.txt $(templates)
 	find $(global_assets_dir) -maxdepth 1 -type f -name 'instance-scheduler*.template' -delete
 
 	# build cfn templates
-	python ./build-instance-scheduler-template.py ../cloudformation/instance-scheduler.template  $(bucket) $(solution) $(version) $(region) > $(global_assets_dir)/instance-scheduler.template
-	python ./build-instance-scheduler-template.py ../cloudformation/instance-scheduler-remote.template  $(bucket) $(solution) $(version) $(region) > $(global_assets_dir)/instance-scheduler-remote.template
+	python ./build-instance-scheduler-template.py ../cloudformation/instance-scheduler.template  $(bucket) $(solution) $(version) > $(global_assets_dir)/instance-scheduler.template
+	python ./build-instance-scheduler-template.py ../cloudformation/instance-scheduler-remote.template  $(bucket) $(solution) $(version) > $(global_assets_dir)/instance-scheduler-remote.template
 
 
 ######################################################################################################################

@@ -61,32 +61,6 @@ echo "Generate Cloudformation template and related resources by Makefile"
 echo "------------------------------------------------------------------------------"
 cd ../source/code
 
-newbucket=$1
-base_bucket=$2
-case $SHELL in
-*/zsh)
-    region=${newbucket##$base_bucket-}
-    echo "zsh region ${region}" 
-    ;;
-*/bash)
-    # region_index=$(expr match "${newbucket}" "${base_bucket}")
-    # echo "bash region_index ${region_index}"
-    # region=${newbucket:$region_index+1}
-    region=${newbucket##$base_bucket-}
-    echo "bash region ${region}"
-    ;;
-*/sh)
-    # region_index=$(expr match "${newbucket}" "${base_bucket}")
-    # echo "sh region_index ${region_index}"
-    # region=${newbucket:$region_index+1}
-    region=${newbucket##$base_bucket-}
-    echo "sh region ${region}"
-    ;;
-*)
-    echo "non-supported shell"
-    exit 1
-esac
-
-echo "make final_bucket=$1 bucket=$2 solution=$3 version=$4 region=$region"
-make final_bucket=$1 bucket=$2 solution=$3 version=$4 region=$region
+echo "make final_bucket=$1 bucket=$2 solution=$3 version=$4"
+make final_bucket=$1 bucket=$2 solution=$3 version=$4
 echo "Completed building distribution"

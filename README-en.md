@@ -89,8 +89,8 @@ aws s3api put-public-access-block --bucket ${final_bucket} \
     --public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true" --region ${region}
 
 # Upload the Cloudformation template and related source code
-chmod +x deploy-dist.sh && ./deploy-dist.sh ${final_bucket} ${bucket} ${solution} ${version}
-# for example: ./deployment/deploy-dist.sh solutions-scheduler-cn-northwest-1 solutions-scheduler aws-instance-scheduler v1.3.0
+chmod +x deploy-dist.sh && ./deploy-dist.sh ${final_bucket} ${bucket} ${solution} ${version} ${region}
+# for example: ./deployment/deploy-dist.sh solutions-scheduler-cn-northwest-1 solutions-scheduler aws-instance-scheduler v1.3.0 cn-northwest-1
 
 # Delete pytz
 cd ../source/code/
