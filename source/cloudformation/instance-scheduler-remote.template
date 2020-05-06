@@ -47,8 +47,14 @@
                         "Principal": {
                             "AWS": {
                                 "Fn::Join": [
-                                    "", [
-                                        "arn:${AWS::Partition}:iam::", {
+                                    "", 
+                                    [
+                                        "arn:",
+                                        {
+                                            "Ref": "AWS::Partition"
+                                        },
+                                        ":iam::", 
+                                        {
                                             "Ref": "InstanceSchedulerAccount"
                                         },
                                         ":root"
@@ -80,7 +86,11 @@
                                         "Fn::Join": [
                                             ":",
                                             [
-                                                "arn:${AWS::Partition}:rds:*",
+                                                "arn",
+                                                {
+                                                    "Ref": "AWS::Partition"
+                                                },
+                                                "rds:*",
                                                 {
                                                     "Ref": "AWS::AccountId"
                                                 },
@@ -102,7 +112,11 @@
                                         "Fn::Join": [
                                             ":",
                                             [
-                                                "arn:${AWS::Partition}:rds:*",
+                                                "arn",
+                                                {
+                                                    "Ref": "AWS::Partition"
+                                                },
+                                                "rds:*",
                                                 {
                                                     "Ref": "AWS::AccountId"
                                                 },
@@ -124,7 +138,11 @@
                                             "Fn::Join": [
                                                 ":",
                                                 [
-                                                    "arn:${AWS::Partition}:rds:*",
+                                                    "arn",
+                                                    {
+                                                        "Ref": "AWS::Partition"
+                                                    },
+                                                    "rds:*",
                                                     {
                                                         "Ref": "AWS::AccountId"
                                                     },
@@ -147,7 +165,11 @@
                                             "Fn::Join": [
                                                 ":",
                                                 [
-                                                    "arn:${AWS::Partition}:ec2:*",
+                                                    "arn",
+                                                    {
+                                                        "Ref": "AWS::Partition"
+                                                    },
+                                                    "ec2:*",
                                                     {
                                                         "Ref": "AWS::AccountId"
                                                     },

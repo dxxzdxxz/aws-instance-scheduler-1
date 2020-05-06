@@ -787,7 +787,11 @@
                                     "Fn::Join": [
                                         ":",
                                         [
-                                            "arn:${AWS::Partition}:logs",
+                                            "arn",
+                                            {
+                                                "Ref": "AWS::Partition"
+                                            },
+                                            "logs",
                                             {
                                                 "Ref": "AWS::Region"
                                             },
@@ -806,7 +810,11 @@
                                     "Fn::Join": [
                                         ":",
                                         [
-                                            "arn:${AWS::Partition}:logs",
+                                            "arn",
+                                            {
+                                                "Ref": "AWS::Partition"
+                                            },
+                                            "logs",
                                             {
                                                 "Ref": "AWS::Region"
                                             },
@@ -830,7 +838,11 @@
                                 "Fn::Join": [
                                     ":",
                                     [
-                                        "arn:${AWS::Partition}:rds:*",
+                                        "arn",
+                                        {
+                                            "Ref": "AWS::Partition"
+                                        },
+                                        "rds:*",
                                         {
                                             "Ref": "AWS::AccountId"
                                         },
@@ -852,7 +864,11 @@
                                 "Fn::Join": [
                                     ":",
                                     [
-                                        "arn:${AWS::Partition}:rds:*",
+                                        "arn",
+                                        {
+                                            "Ref": "AWS::Partition"
+                                        },
+                                        "rds:*",
                                         {
                                             "Ref": "AWS::AccountId"
                                         },
@@ -874,7 +890,11 @@
                                     "Fn::Join": [
                                         ":",
                                         [
-                                            "arn:${AWS::Partition}:rds:*",
+                                            "arn",
+                                            {
+                                                "Ref": "AWS::Partition"
+                                            },
+                                            "rds:*",
                                             {
                                                 "Ref": "AWS::AccountId"
                                             },
@@ -897,7 +917,11 @@
                                     "Fn::Join": [
                                         ":",
                                         [
-                                            "arn:${AWS::Partition}:ec2:*",
+                                            "arn",
+                                            {
+                                                "Ref": "AWS::Partition"
+                                            },
+                                            "ec2:*",
                                             {
                                                 "Ref": "AWS::AccountId"
                                             },
@@ -926,7 +950,11 @@
                                                 "Fn::Join": [
                                                     ":",
                                                     [
-                                                        "arn:${AWS::Partition}:dynamodb",
+                                                        "arn",
+                                                        {
+                                                            "Ref": "AWS::Partition"
+                                                        },
+                                                        "dynamodb",
                                                         {
                                                             "Ref": "AWS::Region"
                                                         },
@@ -951,7 +979,11 @@
                                                 "Fn::Join": [
                                                     ":",
                                                     [
-                                                        "arn:${AWS::Partition}:dynamodb",
+                                                        "arn",
+                                                        {
+                                                            "Ref": "AWS::Partition"
+                                                        },
+                                                        "dynamodb",
                                                         {
                                                             "Ref": "AWS::Region"
                                                         },
@@ -1316,7 +1348,11 @@
                     "Fn::Join": [
                         ":",
                         [
-                            "arn:${AWS::Partition}:lambda",
+                            "arn",
+                            {
+                                "Ref": "AWS::Partition"
+                            },
+                            "lambda",
                             {
                                 "Ref": "AWS::Region"
                             },
@@ -1378,7 +1414,11 @@
                             "Fn::Join": [
                                 ":",
                                 [
-                                    "arn:${AWS::Partition}:lambda",
+                                    "arn",
+                                    {
+                                        "Ref": "AWS::Partition"
+                                    },
+                                    "lambda",
                                     {
                                         "Ref": "AWS::Region"
                                     },
