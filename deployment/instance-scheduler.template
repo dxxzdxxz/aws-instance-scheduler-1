@@ -760,6 +760,10 @@
                         {
                             "id": "W12",
                             "reason": "All policies have been scoped to be as restrictive as possible. This solution needs to access ec2/rds resources across all regions."
+                        },
+                        {
+                            "id": "W76",
+                            "reason": "SPCM for IAM policy document is higher than 25. Ignore this"
                         }
                     ]
                 }
