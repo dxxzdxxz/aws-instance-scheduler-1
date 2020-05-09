@@ -298,6 +298,7 @@ Note that if you set the override_status field to running but use the enforced f
 ## Schedule Definitions
 
 The Instance Scheduler configuration table in Amazon DynamoDB contains schedule definitions. A schedule definition can contain the following fields.
+
 | Field | Description |
 | :---- | :---------- |
 | description | An optional description of the schedule |
