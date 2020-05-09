@@ -312,7 +312,7 @@ Amazon DynamoDB 中的实例计划程序配置表包含计划定义。 时间表
 | enforced | 选择是否执行计划。 当此字段设置为true时，如果调度程序在运行时段之外手动启动，则调度程序将停止正在运行的实例，如果在运行时段内手动停止，则它将启动实例。 |
 | name | 用于标识计划的名称。 此名称必须唯一。 |
 | override_status | 当此字段设置为运行时，实例将启动但不会停止，直到您手动将其停止。 当此字段设置为stop时，实例将被停止但不会启动，直到您手动启动它为止。 |
-| periods | 此计划中使用的期间的名称。 输入与期间名称字段中显示的名称完全相同的名称。 您也可以使用语法<period-name> @ <instance-type>指定该时期的实例类型。 例如，weekdays @ t2.large。 |
+| periods | 此计划中使用的期间的名称。 输入与期间名称字段中显示的名称完全相同的名称。 您也可以使用语法<period-name>@<instance-type>指定该时期的实例类型。 例如，weekdays@t2.large。 |
 | retain_running | 如果实例是在周期开始之前手动启动的，请选择是否阻止解决方案在运行周期结束时停止该实例。 |
 | ssm_maintenance_window | 选择是否将AWS Systems Manager维护窗口添加为运行期。 输入维护窗口的名称。 注意：要使用此字段，还必须将use_maintenance_window参数设置为true。 |
 | stop_new_instances | 如果实例在运行时段之外运行，请选择是否在实例首次标记时停止实例。 默认情况下，此字段设置为true。 |

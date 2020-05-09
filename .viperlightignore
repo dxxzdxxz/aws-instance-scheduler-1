@@ -17,3 +17,7 @@ source/code/requesthandlers/setup_demo_data.py:64
 source/code/models/ec2/2016-11-15/service-2.json:13142
 source/code/models/ec2/2016-11-15/service-2.json:13168
 source/code/models/rds/2014-10-31/service-2.json:4873
+Deployment-Guide-cn.md:85
+Deployment-Guide-en.md:81
+Deployment-Guide-en.md:309
+Deployment-Guide-cn.md:315
