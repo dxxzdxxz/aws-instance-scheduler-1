@@ -21,6 +21,7 @@
 4. Use above http url of instance-scheduler.template to launch CloudFormation stack
 
     Stack Input Parameters：
+
     | Key      | Value    |
     | :----    | :----    |
     | Stack Name | Instance-Scheduler |
@@ -77,6 +78,7 @@ Valid command:
 ```
 
 3. Example: Create a period from Monday to Friday, 9 am to 21 am
+
 ```bash
 # The --stack set the cloudformation primary stack name, --region set the aws region code, --profile set the aws cli profile name
 scheduler-cli create-period --name office-hours-09to21 --weekdays mon-fri --begintime 9:00 --endtime 21:00 --stack Instance-Scheduler --region cn-northwest-1 --profile aws-china
@@ -92,6 +94,7 @@ Configure Schedules guide：
 https://docs.aws.amazon.com/solutions/latest/instance-scheduler/appendix-a.html
 
 1. Create schedule and attach the periods
+
 ```bash
 # The --stack set the cloudformation primary stack name, --region set the aws region code, --profile set the aws cli profile name
 # The --periods set the periods name created by create-period command
@@ -113,12 +116,15 @@ scheduler-cli delete-schedule --name uk-office-hours --stack instance-scheduler 
     For example, to apply office-hours-09to21 schedule to instances, add the Schedule=office-hours-09to21 tag to the instances. 
 
 Beijing region EC2 example
+
 ![](resource/images/ec2-bjs-tag.png)
 
 Ningxia region EC2 example
+
 ![](resource/images/ec2-zhy-tag.png)
 
 RDS example
+
 ![](resource/images/rds-zhy-tag.png)
 
 
@@ -127,6 +133,7 @@ RDS example
 > Check the tagged ec2 instance and non-tagged ec2 instance start/stop as expected
 
 1. DynamoDB Table instance-scheduler-StateTable-xxxx record the instance status
+
 ![](resource/images/schedule-result.png)
 
 2. Check EC2 and RDS instances status it should match the DynamoDB Table record

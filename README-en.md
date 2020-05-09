@@ -46,6 +46,7 @@ The following are some key components:
 The basic steps are as follows, the setup commands have been verified on Amazon Linux, Ubuntu, MacOS:
 
 1. You can git clone this repo
+
 ```bash
 # git clone
 git clone https://code.awsrun.com/csdc/aws-instance-scheduler.git
@@ -53,6 +54,7 @@ cd aws-instance-scheduler/source/code/
 ```
 
 2. Make sure the aws cli, pip, zip command and pytz liberary have been installed on your machine
+
 ```bash
 # Install pytz
 pip install pytz
@@ -63,12 +65,14 @@ cp -r ${pytz_location}/pytz .
 3. Modify the code to add your content
 
 4. Running Unit Tests
+
 ```bash
 cd ../../deployment/
 chmod +x run-unit-tests.sh && ./run-unit-tests.sh
 ```
 
-4. Run build-s3-dist.sh to build the project
+5. Run build-s3-dist.sh to build the project
+
 ```bash
 # Build
 ## define variable or specify the value of bucket, solution, version, final_bucket

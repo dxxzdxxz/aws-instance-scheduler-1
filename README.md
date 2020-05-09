@@ -45,6 +45,7 @@ Lambda 函数还在 Amazon DynamoDB 中记录时间计划表的名称，与该�
 基本步骤如下，编译命令在 Amazon Linux, Ubuntu, MacOS 环境下验证通过：
 
 1. git克隆这个仓库
+
 ```bash
 # git 克隆
 git clone https://code.awsrun.com/csdc/aws-instance-scheduler.git
@@ -52,6 +53,7 @@ cd aws-instance-scheduler/source/code/
 ```
 
 2. 确保你的运行机器安装了 aws cli, pip, zip 命令 以及 pytz库
+
 ```bash
 # 安装 pytz 库
 pip install pytz
@@ -61,12 +63,14 @@ cp -r ${pytz_location}/pytz .
 3. 修改代码，加入您的内容
 
 4. 执行单元测试Running Unit Tests
+
 ```bash
 cd ../../deployment/
 chmod +x run-unit-tests.sh && ./run-unit-tests.sh
 ```
 
-4. 运行 build-s3-dist.sh 命令编译工程项目
+5. 运行 build-s3-dist.sh 命令编译工程项目
+
 ```bash
 # 编译
 ## 定义下列变量：bucket, solution, version, final_bucket

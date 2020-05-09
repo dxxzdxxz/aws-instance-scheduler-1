@@ -21,6 +21,7 @@
 4. 使用上述 template 的 http url 创建 CloudFormation stack
 
     参考输入参数：
+
     | Key      | Value    |
     | :----    | :----    |
     | Stack Name | Instance-Scheduler |
@@ -77,6 +78,7 @@ scheduler-cli <command> <arguments> --stack {cloudformation-primary-stack-name} 
 ```
 
 3. 参考样例：创建一个周一到周五，早上9点到21点的period
+
 ```bash
 # The --stack set the cloudformation primary stack name, --region set the aws region code, --profile set the aws cli profile name
 scheduler-cli create-period --name office-hours-09to21 --weekdays mon-fri --begintime 9:00 --endtime 21:00 --stack Instance-Scheduler --region cn-northwest-1 --profile aws-china
@@ -92,6 +94,7 @@ scheduler-cli create-period --name office-hours-09to21 --weekdays mon-fri --begi
 https://docs.aws.amazon.com/solutions/latest/instance-scheduler/appendix-a.html
 
 1. 创建 schedule, 将需要的 period 添加到 schedule 中
+
 ```bash
 # The --stack set the cloudformation primary stack name, --region set the aws region code, --profile set the aws cli profile name
 # The --periods set the periods name created by create-period command
@@ -113,12 +116,15 @@ scheduler-cli delete-schedule --name uk-office-hours --stack instance-scheduler 
     例如，要将 office-hours-09to21 时间表应用于实例，请将 Schedule = office-hours-09to21 标签添加到实例。默认的标签名是 Schedule
 
 北京区EC2示例
+
 ![](resource/images/ec2-bjs-tag.png)
 
 宁夏区EC2示例
+
 ![](resource/images/ec2-zhy-tag.png)
 
 RDS示例
+
 ![](resource/images/rds-zhy-tag.png)
 
 
@@ -127,6 +133,7 @@ RDS示例
 > 检查标记的ec2实例和未标记的 ec2 实例是否按预期方式启动/停止
 
 1. DynamoDB Table instance-scheduler-StateTable-xxxx 记录示例状态
+
 ![](resource/images/schedule-result.png)
 
 2. 检查 EC2 和 RDS 实例状态，与DynamoDB Table记录一致
