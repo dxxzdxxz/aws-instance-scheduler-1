@@ -55,10 +55,8 @@ cd aws-instance-scheduler/source/code/
 2. 确保你的运行机器安装了 aws cli, pip, zip 命令 以及 pytz库
 
 ```bash
-# 安装 pytz 库
-pip install pytz
-pytz_location=$(pip show pytz | grep Location | cut -d':' -f 2 | tr -d " ")
-cp -r ${pytz_location}/pytz .
+# 安装 依赖 库
+pip install -r requirements.txt --target ./package
 ```
 3. 修改代码，加入您的内容
 
@@ -95,7 +93,8 @@ chmod +x deploy-dist.sh && ./deploy-dist.sh ${final_bucket} ${bucket} ${solution
 
 # 删除 pytz 库
 cd ../source/code/
-rm -r pytz/
+rm -r package/
+cd ../..
 ```
 
 ## 编译和部署成功执行了哪些动作？

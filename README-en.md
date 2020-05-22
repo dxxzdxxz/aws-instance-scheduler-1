@@ -56,10 +56,8 @@ cd aws-instance-scheduler/source/code/
 2. Make sure the aws cli, pip, zip command and pytz liberary have been installed on your machine
 
 ```bash
-# Install pytz
-pip install pytz
-pytz_location=$(pip show pytz | grep Location | cut -d':' -f 2 | tr -d " ")
-cp -r ${pytz_location}/pytz .
+# Install dependencies
+pip install -r requirements.txt --target ./package
 ```
 
 3. Modify the code to add your content
@@ -98,7 +96,7 @@ chmod +x deploy-dist.sh && ./deploy-dist.sh ${final_bucket} ${bucket} ${solution
 
 # Delete pytz
 cd ../source/code/
-rm -r pytz/
+rm -r package/
 cd ../..
 ```
 
