@@ -105,7 +105,7 @@ scheduler-cli create-schedule --name office-hours-09to21 --periods office-hours-
 2. scheduler-cli describe-schedules --stack Instance-Scheduler --region cn-northwest-1 --profile aws-china
 
 # 删除 schedule
-scheduler-cli delete-schedule --name uk-office-hours --stack instance-scheduler --region cn-northwest-1 --profile cn-north-1
+scheduler-cli delete-schedule --name uk-office-hours --stack Instance-Scheduler --region cn-northwest-1 --profile cn-north-1
 ```
 
 ## Step 4. 给需要纳入管理的 EC2 和 RDS 打标签

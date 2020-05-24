@@ -5,3 +5,4 @@ deployment/regional-s3-assets/**
 **/deployment/global-s3-assets/
 **/deployment/regional-s3-assets/
 **/source/code/package/
+init-env.sh
