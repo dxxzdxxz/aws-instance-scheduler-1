@@ -1025,7 +1025,11 @@
                                     "Fn::Join": [
                                         ":",
                                         [
-                                            "arn:${AWS::Partition}:lambda",
+                                            "arn", 
+                                            {
+                                                "Ref": "AWS::Partition"
+                                            }, 
+                                            "lambda",
                                             {
                                                 "Ref": "AWS::Region"
                                             },
