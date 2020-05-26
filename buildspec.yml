@@ -4,10 +4,9 @@ phases:
   install:
     commands:
       - cd source/code/
+      - mkdir package
       - echo "Installing dependencies - `pwd`"
-      - pip install pytz
-      - pytz_location=$(pip show pytz | grep Location | cut -d':' -f 2 | tr -d " ")
-      - cp -r ${pytz_location}/pytz .
+      - pip install -r requirements.txt --target ./package
       - echo "Installing dependencies completed `date`"
   pre_build:
     commands:
